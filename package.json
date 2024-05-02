@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "What is CodeIgniter ###################",
   "main": "index.js",
-  "scripts": {
-    "build:css": "postcss assets/css/styles.css -o public/css/styles.css"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
