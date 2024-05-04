@@ -11,25 +11,41 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <title><?= isset($title) ? $title : 'Peminjaman IT' ?></title>
     <link rel="icon" type="image/x-icon" href="<?= base_url('public/favico/favicon.ico'); ?>">
     <!-- Include Tailwind CSS -->
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="<?= base_url('assets/tailwindcss/tailwind.min.css') ?>" rel="stylesheet" />
     <!-- jQuery -->
     <script src="<?= base_url('assets/bundle/jquery/jquery.min.js'); ?>"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" integrity="sha256-h2Gkn+H33lnKlQTNntQyLXMWq7/9XI2rlPCsLsVcUBs=" crossorigin="anonymous">
+
+    <!-- Custom fonts for this template-->
+    <link href="<?= base_url('assets/sbadmin-2/vendor/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet"
+        type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="<?= base_url('assets/sbadmin-2/css/sb-admin-2.min.css'); ?>" rel="stylesheet">
+    <!-- Sweetalert -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css"
+        integrity="sha256-h2Gkn+H33lnKlQTNntQyLXMWq7/9XI2rlPCsLsVcUBs=" crossorigin="anonymous">
 </head>
 <style>
-aside {
-    background-color: #4a90e2; /* Ganti dengan warna navbar Anda */
-    color: white; /* Warna teks navbar */
-    padding: 10px;
-    /* Properti lain sesuai kebutuhan */
-}
-.container {
-    margin-top: 20px; 
-}
+    aside {
+        background-color: #4a90e2;
+        /* Ganti dengan warna navbar Anda */
+        color: white;
+        /* Warna teks navbar */
+        padding: 10px;
+        /* Properti lain sesuai kebutuhan */
+    }
+
+    .container {
+        margin-top: 20px;
+    }
 </style>
+
 <body class="bg-gray-100">
     <!-- Header Section (can be a separate file included here) -->
-    <?php if (isset($header)) : ?>
+    <?php if (isset($header)): ?>
         <header>
             <?php echo $header; ?>
         </header>
@@ -37,28 +53,24 @@ aside {
 
     <!-- Sidebar -->
     <div class="flex justify-center">
-        
+
         <?php if ($this->session->userdata('logged_in') == TRUE) {
             $this->load->view('component/sidebar');
         } ?>
 
         <!-- Main Content Section -->
-        <div class="container flex-1 p-4">
-            <main class="sm:container sm:mx-auto sm:max-w-lg sm:mt-24 lg:ml-64 p-4">
-                <?php if (isset($content)) : ?>
-                    <div id="content-wrapper">
-                        <?php echo $content; ?> <!-- This will be replaced with specific content -->
-                    </div>
+        <div class="container flex-1">
+            <div id="content">
+                <?php if (isset($content)): ?>
+                    <?php echo $content; ?>
                 <?php endif; ?>
-            </main>
+            </div>
         </div>
     </div>
 
-    
-    <!-- Footer Section (can be a separate file included here) -->
-    <?php if (isset($footer)) : ?>
-        <footer>
-            <?php echo $footer; ?>
+    <?php if ($this->session->userdata('logged_in') == TRUE): ?>
+        <footer class="sticky-footer bg-gray-400">
+            <?php $this->load->view('component/footer') ?>
         </footer>
     <?php endif; ?>
 
@@ -66,7 +78,19 @@ aside {
 <?php $this->load->view('component/sweetalert'); ?>
 <!-- Sweetalert2 Dark Theme -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="<?= base_url('assets/bundle/js/jquery.bundle.js?ver=1930'); ?>"></script>
-<script src="<?= base_url('assets/bundle/js/scripts.js?ver=1930'); ?>"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="<?= base_url('assets/sbadmin-2/'); ?>vendor/jquery/jquery.min.js"></script>
+<script src="<?= base_url('assets/sbadmin-2/'); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="<?= base_url('assets/sbadmin-2/'); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="<?= base_url('assets/sbadmin-2/'); ?>js/sb-admin-2.min.js"></script>
+<!-- Page level plugins -->
+<script src="<?= base_url('assets/sbadmin-2/'); ?>vendor/chart.js/Chart.min.js"></script>
+
+<script src="<?= base_url('assets/sbadmin-2/'); ?>js/demo/chart-area-demo.js"></script>
+<script src="<?= base_url('assets/sbadmin-2/'); ?>js/demo/chart-pie-demo.js"></script>
 
 </html>

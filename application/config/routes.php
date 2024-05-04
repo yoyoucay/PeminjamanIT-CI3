@@ -56,5 +56,7 @@ $route['login'] = 'Auth/login';
 $route['gpass'] = 'Auth/generatePass';
 $route['logout'] = 'Auth/logout';
 
+$route['dashboard'] = 'General';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
