@@ -1,10 +1,11 @@
-<?php 
+<?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-                        
-class Authentication_models extends CI_Model 
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class Authentication_models extends CI_Model
 {
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('General_models');
 
@@ -15,7 +16,7 @@ class Authentication_models extends CI_Model
     public function is_LoggedIn()
     {
         // menguji session
-        if($this->session->userdata('logged_in') == NULL || $this->session->userdata('logged_in') == FALSE){
+        if ($this->session->userdata('logged_in') == NULL || $this->session->userdata('logged_in') == FALSE) {
             return false;
         }
         return true;
@@ -24,7 +25,7 @@ class Authentication_models extends CI_Model
     public function is_Admin()
     {
         // menguji session
-        if($this->session->userdata('role') == 'user' || $this->session->userdata('role') != 'admin'){
+        if ($this->session->userdata('sRole') == 'user' || $this->session->userdata('sRole') != 'admin') {
             return false;
         }
         return true;
@@ -37,10 +38,10 @@ class Authentication_models extends CI_Model
         $this->db->where($key, $value);
         $query = $this->db->get();
         // die(var_dump($this->db->last_query()));
-        
-        if(!empty($query->row_array())){
+
+        if (!empty($query->row_array())) {
             return $query->row_array();
-        }        
+        }
         return false;
     }
 
@@ -54,61 +55,59 @@ class Authentication_models extends CI_Model
             }
         }
         return false;
-    }   
+    }
 
     public function createAccount()
     {
         $id_wallet = NULL;
-        $username = $this->input->post('regist_username');
-        if ($id_wallet = $this->createWallet($username)) {
+        $sEmpID = $this->input->post('regist_username');
+        if ($sEmpID) {
             $data = array(
-                'username'      => $this->input->post('regist_username'),
-                'email'         => $this->input->post('regist_email'),
-                'fullname'      => $this->input->post('regist_fullname'),
-                'password'      => $this->encryption->encrypt($this->input->post('regist_password2')),
-                'kode_wallet'   => $id_wallet,
-                'code_token'    => random_string('alnum', 20),
-                'role'          => 'user',     
+                'sEmpID' => $this->input->post('empid'),
+                'sFullname' => $this->input->post('fullname'),
+                'sPassword' => $this->encryption->encrypt($this->input->post('password')),
+                'sRole' => 'user',
             );
-            return $this->db->insert('tbl_user', $data);
-        }elseif ($id_wallet == NULL) {
-            die('Failed to create wallet');
+            return $this->db->insert('tb_user', $data);
+        } elseif ($id_wallet == NULL) {
+            die('Failed to create Account');
         }
     }
 
     public function searchAccount($keyword)
     {
-      $this->db->select('*');
-      $this->db->where('sEmpID', $keyword);
-      $query = $this->db->get('tb_user');
+        $this->db->select('*');
+        $this->db->where('sEmpID', $keyword);
+        $query = $this->db->get('tb_user');
 
-    //   die($this->db->last_query());
-      if (!empty($query->row_array())) {
-        $result = $query->row_array(); 
-        return $result; 
-      }
-      return FALSE;
+        //   die($this->db->last_query());
+        if (!empty($query->row_array())) {
+            $result = $query->row_array();
+            return $result;
+        }
+        return FALSE;
     }
 
-        
-    public function reloadSessionData($username = NULL){
+
+    public function reloadSessionData($username = NULL)
+    {
         if ($username != NULL) {
             $user = $this->Authentication_models->getDataUser('sEmpID', $username);
-        }elseif ($username == NULL) {
+        } elseif ($username == NULL) {
             $user = $this->Authentication_models->getDataUser('sEmpID', $this->input->post('empid'));
-        }        
+        }
         // Get Global Settings Configuration From database.
         // $settings = $this->User_models->getGlobSettings();
 
         // die(var_dump($user));
 
-        if($user != NULL):
+        if ($user != NULL):
             $dataUser = array(
-                'idUser'            => $user['idUser'],
-                'sEmpID'            => $user['sEmpID'],
-                'sFullName'             => $user['sFullname'],
-                'sRole'                 => $user['sRole'],
-                'logged_in'             => true,
+                'idUser' => $user['idUser'],
+                'sEmpID' => $user['sEmpID'],
+                'sFullName' => $user['sFullname'],
+                'sRole' => $user['sRole'],
+                'logged_in' => true,
             );
         elseif ($user == NULL):
             return FALSE;
@@ -118,7 +117,7 @@ class Authentication_models extends CI_Model
         return TRUE;
     }
 
-                        
+
 }
 
 

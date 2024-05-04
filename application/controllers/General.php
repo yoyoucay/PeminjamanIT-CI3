@@ -31,8 +31,21 @@ class General extends CI_Controller
   {
     $data = $this->session->userdata();
 
+    // die(var_dump($data));
+
     $data['title'] = 'Dashboard - Peminjaman IT';
     $data['content'] = $this->load->view('General/dashboard', null, true);
+    $this->load->view('layout', $data);
+  }
+
+  public function peminjaman()
+  {
+    $data = $this->session->userdata();
+
+    // die(var_dump($data));
+
+    $data['title'] = 'Peminjaman - Peminjaman IT';
+    $data['content'] = $this->load->view('General/peminjaman', null, true);
     $this->load->view('layout', $data);
   }
 }

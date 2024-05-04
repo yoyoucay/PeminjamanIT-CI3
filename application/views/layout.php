@@ -68,12 +68,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
     </div>
 
-    <?php if ($this->session->userdata('logged_in') == TRUE): ?>
-        <footer class="sticky-footer bg-gray-400">
-            <?php $this->load->view('component/footer') ?>
-        </footer>
-    <?php endif; ?>
-
 </body>
 <?php $this->load->view('component/sweetalert'); ?>
 <!-- Sweetalert2 Dark Theme -->

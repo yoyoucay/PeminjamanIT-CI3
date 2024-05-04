@@ -34,7 +34,7 @@
             data: {
                 labels: ["PC02CC3", "PC023DD", "PC0WW23", "PC0DD23", "PC02DS3", "PC023BA"],
                 datasets: [{
-                    label: "Earnings",
+                    label: "Dipakai",
                     lineTension: 0.3,
                     backgroundColor: "rgba(78, 115, 223, 0.05)",
                     borderColor: "rgba(78, 115, 223, 1)",
@@ -110,7 +110,7 @@
                     callbacks: {
                         label: function (tooltipItem, chart) {
                             var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                            return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                            return datasetLabel + ': ' + number_format(tooltipItem.yLabel) + ' pcs.';
                         }
                     }
                 }

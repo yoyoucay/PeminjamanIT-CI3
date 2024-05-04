@@ -13,6 +13,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
   </a>
 
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <li class="nav-item">
+    <div class="nav-link" href="">
+      <span>
+        <h2 class="text-white"><?php echo $sFullName; ?></h2>
+        <p>Role: <?php echo $sRole; ?></p>
+      </span>
+    </div>
+  </li>
 
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
@@ -42,8 +53,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div id="collapse1" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">List Peminjaman :</h6>
-        <a class="collapse-item" href="buttons.html">Ajukan Peminjaman</a>
-        <a class="collapse-item" href="cards.html">Data Peminjaman</a>
+        <a class="collapse-item" href="<?= base_url('peminjaman'); ?>">Data Peminjaman</a>
       </div>
     </div>
   </li>
@@ -65,7 +75,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Menu admin :</h6>
-        <a class="collapse-item" href="<?= base_url('request'); ?> ">Persetujuan Peminjaman</a>
+        <a class="collapse-item" href="<?= base_url('request'); ?> ">Persetujuan</a>
+        <a class="collapse-item" href="<?= base_url('barang'); ?>">Registrasi Barang</a>
         <a class="collapse-item" href="<?= base_url('account'); ?>">Akun</a>
       </div>
     </div>

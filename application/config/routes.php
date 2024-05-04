@@ -56,7 +56,14 @@ $route['login'] = 'Auth/login';
 $route['gpass'] = 'Auth/generatePass';
 $route['logout'] = 'Auth/logout';
 
+// General
 $route['dashboard'] = 'General';
+$route['peminjaman'] = 'General/peminjaman';
+
+// Admin
+$route['request'] = 'Admin/request';
+$route['barang'] = 'Admin/barang';
+$route['account'] = 'Admin/account';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
