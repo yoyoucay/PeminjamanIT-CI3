@@ -19,7 +19,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <li class="nav-item">
     <div class="nav-link" href="">
       <span>
-        <h2 class="text-white"><?php echo $sFullName; ?></h2>
+        <p class="text-white"><?php echo $sFullName; ?></p>
         <p>Role: <?php echo $sRole; ?></p>
       </span>
     </div>
