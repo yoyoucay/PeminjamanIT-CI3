@@ -8,8 +8,6 @@
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Daftar Barang</h1>
-                <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                        class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
             </div>
             <!-- Content Row -->
             <div class="row">
@@ -19,8 +17,10 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 flex justify-between">
                             <div class="w-full flex gap-4 h-25">
-                                <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                        class="fas fa-plus fa-sm text-white-50"></i> Daftarkan Barang</a>
+                                <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                                    onclick="openModal('modalInputBrg')">
+                                    <i class="fas fa-plus fa-sm text-white-50"></i>
+                                    Daftarkan Barang</button>
                             </div>
                             <div class="flex gap-2 justify-between ml-12">
                                 <div class="input-group">
@@ -103,4 +103,6 @@
     </div>
     <!-- End of Main Content -->
 </div>
+
+<?php $this->load->view('component/modal-regis'); ?>
 <!-- End of Content Wrapper -->

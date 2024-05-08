@@ -88,5 +88,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <script src="<?= base_url('assets/sbadmin-2/'); ?>js/demo/chart-area-demo.js"></script>
 <script src="<?= base_url('assets/sbadmin-2/'); ?>js/demo/chart-pie-demo.js"></script>
+<script type="text/javascript">
+    window.openModal = function (modalId) {
+        document.getElementById(modalId).style.display = 'flex'
+        // document.getElementById(modalId).style.justifyContent = 'center'
+        document.getElementsByTagName('body')[0].classList.add('overflow-y-hidden')
+    }
+
+    window.closeModal = function (modalId) {
+        document.getElementById(modalId).style.display = 'none'
+        document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
+    }
+
+    // Close all modals when press ESC
+    document.onkeydown = function (event) {
+        event = event || window.event;
+        if (event.keyCode === 27) {
+            document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
+            let modals = document.getElementsByClassName('modal');
+            Array.prototype.slice.call(modals).forEach(i => {
+                i.style.display = 'none'
+            })
+        }
+    };
+</script>
 
 </html>
