@@ -9,12 +9,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
             <!-- Modal header -->
             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                <h3 id="hModalBrg" class="text-lg font-semibold text-gray-900 dark:text-white">
                     Registrasi Barang
                 </h3>
                 <button type="button"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    onclick="closeModal('modalInputBrg')">
+                    onclick="closeModal('modalInputBrg'); resetForm('brgForm');">
                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
@@ -25,61 +25,116 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="#">
+            <form id="brgForm" onsubmit="submitForm(); return false;">
+                <input type="hidden" value="" id="idBrg" name="idBrg">
                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
                     <div>
-                        <label for="name"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                        <input type="text" name="name" id="name"
+                        <label for="sKode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
+                            Barang</label>
+                        <input type="text" name="sKode" id="sKode"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Type product name" required="">
+                            placeholder="Tulis Kode Barang" required>
                     </div>
                     <div>
-                        <label for="brand"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
-                        <input type="text" name="brand" id="brand"
+                        <label for="sName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama
+                            Barang</label>
+                        <input type="text" name="sName" id="sName"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Product brand" required="">
+                            placeholder="Nama Barang" required>
                     </div>
                     <div>
-                        <label for="price"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                        <input type="number" name="price" id="price"
+                        <label for="decQty"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Qty.</label>
+                        <input type="number" name="decQty" id="decQty"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="$2999" required="">
+                            value="0" required>
                     </div>
                     <div>
-                        <label for="category"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                        <select id="category"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option selected="">Select category</option>
-                            <option value="TV">TV/Monitors</option>
-                            <option value="PC">PC</option>
-                            <option value="GA">Gaming/Console</option>
-                            <option value="PH">Phones</option>
+                        <label for="sType" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipe
+                            Barang</label>
+                        <select id="sType" name="sType"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            required>
+                            <option value="1">Aset</option>
+                            <option value="2">Non-Aset</option>
                         </select>
                     </div>
-                    <div class="sm:col-span-2">
+                    <!-- <div class="sm:col-span-2">
                         <label for="description"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                         <textarea id="description" rows="4"
                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Write product description here"></textarea>
-                    </div>
+                    </div> -->
                 </div>
-                <button type="submit"
-                    class="text-white inline-flex items-center bg-primary hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    Add new product
-                </button>
-                <button type="submit" onclick="closeModal('modalInputBrg')" class=" text-white inline-flex items-center bg-danger hover:bg-danger-200 focus:ring-4
+                <div class='flex justify-between'>
+                    <button type="submit"
+                        class="text-white inline-flex items-center bg-primary hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                        Submit
+                    </button>
+                    <button type="button" onclick="closeModal('modalInputBrg'); resetForm('brgForm');" class=" text-white inline-flex items-center bg-danger hover:bg-danger-200 focus:ring-4
                     focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
                     dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    Cancel
-                </button>
+                        Cancel
+                    </button>
+                </div>
             </form>
         </div>
     </div>
-
-
 </div>
+
+<script>
+    function submitForm() {
+        var table = $('#dtBrg').DataTable();
+        const formData = new FormData(document.getElementById('brgForm'));
+        fetch('<?php echo base_url('Admin/insBarang'); ?>', {
+            method: 'POST',
+            body: formData
+        }).then(response =>
+            response.json()
+        ).then(data => {
+            console.log('data : ', data);
+            if (data.success) {
+                const msg = 'Registrasi Barang berhasil!'
+                notifAlert('success', msg);
+                closeModal('modalInputBrg');
+                table.draw();
+                // You can reload or update your view here as needed
+            } else {
+                const msg = 'Registrasi Barang gagal! Hubungi IT'
+                notifAlert('error', msg);
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('Error inserting data!');
+        });
+    }
+
+    function updateForm() {
+        var table = $('#dtBrg').DataTable();
+
+        const formData = new FormData(document.getElementById('brgForm'));
+        fetch('<?php echo base_url('Admin/updBarang'); ?>', {
+            method: 'POST',
+            body: formData
+        }).then(response =>
+            response.json()
+        ).then(data => {
+            if (data.success) {
+                const msg = 'Ubah Data Barang berhasil!'
+                notifAlert('success', msg);
+                closeModal('modalInputBrg');
+
+                table.draw();
+                // You can reload or update your view here as needed
+            } else {
+                const msg = 'Ubah Data Barang gagal! Hubungi IT'
+                notifAlert('error', msg);
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('Error inserting data!');
+        });
+    }
+</script>
+</script>

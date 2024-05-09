@@ -65,5 +65,8 @@ $route['request'] = 'Admin/request';
 $route['barang'] = 'Admin/barang';
 $route['account'] = 'Admin/account';
 
+// Admin - DataTables
+$route['dtables/getbarang'] = 'Admin/DTable_Get_Barang';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

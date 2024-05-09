@@ -27,6 +27,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- Sweetalert -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css"
         integrity="sha256-h2Gkn+H33lnKlQTNntQyLXMWq7/9XI2rlPCsLsVcUBs=" crossorigin="anonymous">
+
+    <link href="//cdn.datatables.net/2.0.7/css/dataTables.dataTables.min.css" rel="stylesheet">
+    <link href="<?= base_url('assets/sbadmin-2/vendor/datatables/dataTables.bootstrap4.min.css'); ?>" rel="stylesheet">
 </head>
 <style>
     aside {
@@ -54,7 +57,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- Sidebar -->
     <div class="flex justify-center">
 
-        <?php if ($this->session->userdata('logged_in') == TRUE) {
+        <?php if ($this->uri->segment(1) != NULL && $this->uri->segment(1) != 'login') {
             $this->load->view('component/sidebar');
         } ?>
 
@@ -72,8 +75,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <?php $this->load->view('component/sweetalert'); ?>
 <!-- Sweetalert2 Dark Theme -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 <!-- Bootstrap core JavaScript-->
 <script src="<?= base_url('assets/sbadmin-2/'); ?>vendor/jquery/jquery.min.js"></script>
+<script src="<?= base_url('assets/sbadmin-2/'); ?>vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="<?= base_url('assets/sbadmin-2/'); ?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="<?= base_url('assets/sbadmin-2/'); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
@@ -88,6 +95,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <script src="<?= base_url('assets/sbadmin-2/'); ?>js/demo/chart-area-demo.js"></script>
 <script src="<?= base_url('assets/sbadmin-2/'); ?>js/demo/chart-pie-demo.js"></script>
+
 <script type="text/javascript">
     window.openModal = function (modalId) {
         document.getElementById(modalId).style.display = 'flex'
@@ -98,6 +106,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
     window.closeModal = function (modalId) {
         document.getElementById(modalId).style.display = 'none'
         document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
+    }
+
+    function resetForm(formId) {
+        document.getElementById(formId).reset();
     }
 
     // Close all modals when press ESC
