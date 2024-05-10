@@ -8,8 +8,6 @@
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Daftar Akun</h1>
-                <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                        class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
             </div>
             <!-- Content Row -->
             <div class="row">
@@ -19,66 +17,26 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 flex justify-between">
                             <div class="w-full flex gap-4 h-25">
-                                <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                        class="fas fa-plus fa-sm text-white-50"></i> Daftarkan Akun</a>
+                                <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                                    onclick="regisAkun();">
+                                    <i class="fas fa-plus fa-sm text-white-50"></i>
+                                    Daftarkan Akun</button>
                             </div>
-                            <div class="flex gap-2 justify-between ml-12">
-                                <div class="input-group">
-                                    <input type="text" class="form-control bg-light border-1 small"
-                                        placeholder="Search.." aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dtAkun" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>No#</th>
                                             <th>Emp. ID</th>
-                                            <th>Nama Lengkap</th>
+                                            <th>Nama Karyawan</th>
                                             <th>Role</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>No#</th>
-                                            <th>Emp. ID</th>
-                                            <th>Nama Lengkap</th>
-                                            <th>Role</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>752846</td>
-                                            <td>Joko Widodo</td>
-                                            <td>Admin</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>123472</td>
-                                            <td>Budi Mubakti</td>
-                                            <td>User</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>425324</td>
-                                            <td>Karmila</td>
-                                            <td>User</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>521312</td>
-                                            <td>Dodo</td>
-                                            <td>User</td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -91,4 +49,110 @@
     </div>
     <!-- End of Main Content -->
 </div>
+
+<?php $this->load->view('component/modal-akun'); ?>
 <!-- End of Content Wrapper -->
+<script>
+
+    $(document).ready(function () {
+        var table = $('#dtAkun').DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "processing": true,
+            "serverSide": true,
+            "searching": true,
+            "ajax": {
+                "url": "<?php echo base_url('dtables/getakun') ?>",
+                "type": "POST",
+                "data": function (data) {
+                }
+            },
+        });
+
+        // table.on('xhr', function () {
+        //     var json = table.ajax.json();
+        //     console.log(json); // Log the JSON data to the console
+        // });
+    });
+
+    function regisAkun() {
+        var form = document.getElementById('akunForm');
+        form.setAttribute('onsubmit', 'submitForm(); return false;');
+        $('#hModalAkun').text('Registrasi Barang');
+        $('#idAkun').val('');
+        resetForm('akunForm');
+        openModal('modalInputAkun');
+    }
+
+    function editRow(id) {
+        var table = $('#dtAkun').DataTable();
+
+        $('#dtAkun tbody').on('click', 'tr', function () {
+            var rowData = table.row(this).data();
+            // Process rowData as needed (e.g., display in a modal, send to server, etc.)
+
+            console.log('rowdata : ', rowData)
+            $('#hModalAkun').text('Update Akun');
+            if (rowData) {
+                $('#sEmpID').val(rowData[1]);
+                $('#sFullname').val(rowData[2]);
+                $('#sRole').val(rowData[3]);
+                $('#idUser').val(rowData[5]);
+
+                openModal('modalInputAkun');
+
+                var form = document.getElementById('akunForm');
+                form.setAttribute('onsubmit', 'updateForm(); return false;');
+            }
+        });
+    }
+
+    function deleteRow(id) {
+
+        var table = $('#dtAkun').DataTable();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // User confirmed, proceed with deletion
+                $.ajax({
+                    url: '<?php echo base_url('Admin/delAkun'); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { id: id },
+                    success: function (response) {
+                        if (response.status == 'success') {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your data has been deleted.',
+                                'success'
+                            );
+                            // Refresh the DataTable or perform other actions after deletion
+                            table.draw(); // Redraw DataTable
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                response.message,
+                                'error'
+                            );
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                        Swal.fire(
+                            'Error!',
+                            'An error occurred while deleting data.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    }
+</script>

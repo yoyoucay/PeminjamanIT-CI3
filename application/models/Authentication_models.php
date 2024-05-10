@@ -25,7 +25,7 @@ class Authentication_models extends CI_Model
     public function is_Admin()
     {
         // menguji session
-        if ($this->session->userdata('sRole') == 'user' || $this->session->userdata('sRole') != 'admin') {
+        if ($this->session->userdata('sRole') == 'USER' || $this->session->userdata('sRole') != 'ADMIN') {
             return false;
         }
         return true;
