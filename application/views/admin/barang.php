@@ -91,11 +91,13 @@
             var rowData = table.row(this).data();
             // Process rowData as needed (e.g., display in a modal, send to server, etc.)
             $('#hModalBrg').text('Update Barang');
+
+
             if (rowData) {
                 $('#sKode').val(rowData[1]);
                 $('#sName').val(rowData[2]);
                 $('#decQty').val(rowData[3]);
-                $('#sType').val(rowData[4]);
+                $('#sType').val(rowData[7]);
 
                 $('#idBrg').val(rowData[6]);
 

@@ -153,6 +153,7 @@ class Admin extends CI_Controller
                 <button onClick="deleteRow(' . $list_items->idBrg . ')" class="btn btn-danger btn-xs">Delete</button>';
 
             $row[] = $list_items->idBrg;
+            $row[] = $list_items->sType;
             $data[] = $row;
         }
 
