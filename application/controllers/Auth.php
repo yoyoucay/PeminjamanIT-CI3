@@ -26,8 +26,6 @@ class Auth extends CI_Controller
             redirect('dashboard');
         }
 
-
-
         $data['title'] = 'Login - Peminjaman IT';
         $data['content'] = $this->load->view('Auth/login', null, true);
 

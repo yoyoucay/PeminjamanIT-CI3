@@ -293,8 +293,8 @@ class Admin extends CI_Controller
 
         $output = array(
             "draw" => $_POST['draw'],
-            "recordsTotal" => $this->Admin_M->count_all('barang'),
-            "recordsFiltered" => $this->Admin_M->count_filtered('barang'),
+            "recordsTotal" => $this->Admin_M->count_all('akun'),
+            "recordsFiltered" => $this->Admin_M->count_filtered('akun'),
             "data" => $data,
         );
 

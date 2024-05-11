@@ -188,6 +188,10 @@ class Admin_models extends CI_Model
                 $this->db->from('tb_brg');
                 break;
 
+            case 'akun':
+                $this->db->from('tb_user');
+                break;
+
             default:
                 # code...
                 break;
@@ -201,6 +205,10 @@ class Admin_models extends CI_Model
         switch ($category) {
             case 'barang':
                 $this->_get_datatables_Brg();
+                break;
+
+            case 'akun':
+                $this->_get_datatables_Akun();
                 break;
 
             default:

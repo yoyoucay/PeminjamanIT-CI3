@@ -98,7 +98,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             if (data.success) {
                 const msg = 'Registrasi Akun berhasil!'
                 notifAlert('success', msg);
-                closeModal('modalInputBrg');
+                closeModal('modalInputAkun');
                 table.draw();
                 // You can reload or update your view here as needed
             } else {

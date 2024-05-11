@@ -57,30 +57,34 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
     </div>
   </li>
-  <!-- Divider -->
-  <hr class="sidebar-divider">
 
-  <!-- Heading -->
-  <div class="sidebar-heading">
-    Admin
-  </div>
+  <?php if (strtoupper($sRole) == 'ADMIN') { ?>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
 
-  <!-- Nav Item - Pages Collapse Menu -->
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse2" aria-expanded="true"
-      aria-controls="collapseTwo">
-      <i class="fas fa-fw fa-clipboard"></i>
-      <span>Menu Admin</span>
-    </a>
-    <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Menu admin :</h6>
-        <a class="collapse-item" href="<?= base_url('request'); ?> ">Persetujuan</a>
-        <a class="collapse-item" href="<?= base_url('barang'); ?>">Registrasi Barang</a>
-        <a class="collapse-item" href="<?= base_url('account'); ?>">Akun</a>
-      </div>
+    <!-- Heading -->
+    <div class="sidebar-heading">
+      Admin
     </div>
-  </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse2" aria-expanded="true"
+        aria-controls="collapseTwo">
+        <i class="fas fa-fw fa-clipboard"></i>
+        <span>Menu Admin</span>
+      </a>
+      <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">Menu admin :</h6>
+          <a class="collapse-item" href="<?= base_url('request'); ?> ">Persetujuan</a>
+          <a class="collapse-item" href="<?= base_url('barang'); ?>">Registrasi Barang</a>
+          <a class="collapse-item" href="<?= base_url('account'); ?>">Akun</a>
+        </div>
+      </div>
+    </li>
+
+  <?php } ?>
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">
   <!-- Heading -->

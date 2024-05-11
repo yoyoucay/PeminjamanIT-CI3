@@ -30,6 +30,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <link href="//cdn.datatables.net/2.0.7/css/dataTables.dataTables.min.css" rel="stylesheet">
     <link href="<?= base_url('assets/sbadmin-2/vendor/datatables/dataTables.bootstrap4.min.css'); ?>" rel="stylesheet">
+
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- Flatpcker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 <style>
     aside {
@@ -75,6 +83,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <?php $this->load->view('component/sweetalert'); ?>
 <!-- Sweetalert2 Dark Theme -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
 <!-- Bootstrap core JavaScript-->

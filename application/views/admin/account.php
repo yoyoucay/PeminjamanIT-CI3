@@ -77,7 +77,7 @@
     function regisAkun() {
         var form = document.getElementById('akunForm');
         form.setAttribute('onsubmit', 'submitForm(); return false;');
-        $('#hModalAkun').text('Registrasi Barang');
+        $('#hModalAkun').text('Registrasi Akun');
         $('#idAkun').val('');
         resetForm('akunForm');
         openModal('modalInputAkun');
