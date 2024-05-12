@@ -59,15 +59,21 @@ $route['logout'] = 'Auth/logout';
 // General
 $route['dashboard'] = 'General';
 $route['peminjaman'] = 'General/peminjaman';
+$route['export'] = 'General/exportToExcel';
 
 // Admin
 $route['request'] = 'Admin/request';
 $route['barang'] = 'Admin/barang';
 $route['account'] = 'Admin/account';
+$route['request/action'] = 'Admin/updStatusPengajuan';
 
 // Admin - DataTables
 $route['dtables/getbarang'] = 'Admin/DTable_Get_Barang';
 $route['dtables/getakun'] = 'Admin/DTable_Get_Akun';
+$route['dtables/getpengajuan'] = 'Admin/DTable_Get_Pengajuan';
+
+
+// General -DataTables
 $route['dtables/getpeminjaman'] = 'General/DTable_Get_Peminjaman';
 
 $route['404_override'] = '';

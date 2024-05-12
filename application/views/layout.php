@@ -100,8 +100,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <!-- Page level plugins -->
 <script src="<?= base_url('assets/sbadmin-2/'); ?>vendor/chart.js/Chart.min.js"></script>
 
-<?php $this->load->view('js-inter/mostPart'); ?>
-
 <script src="<?= base_url('assets/sbadmin-2/'); ?>js/demo/chart-area-demo.js"></script>
 <script src="<?= base_url('assets/sbadmin-2/'); ?>js/demo/chart-pie-demo.js"></script>
 

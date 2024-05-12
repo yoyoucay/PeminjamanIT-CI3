@@ -31,7 +31,24 @@ class General_models extends CI_Model
 
     function insPeminjaman($data)
     {
-        return $this->db->insert('tb_request', $data);
+        $this->db->insert('tb_request', $data);
+
+        $this->db->set('decQty', 'decQty - ' . $data['decReqQty'], false);
+        $this->db->where('sKode', $data['sKdBrg']);
+        $this->db->update('tb_brg');
+
+        return ($this->db->affected_rows() > 0);
+    }
+
+    public function updPeminjamanById($id, $newData)
+    {
+        // Update data in your database table
+        // Example SQL update query
+        $this->db->where('idReq', $id);
+        $this->db->update('tb_request', $newData);
+
+        // Return true if update was successful, false otherwise
+        return $this->db->affected_rows() > 0;
     }
 
     public function get_datatablesPeminjaman()
@@ -53,6 +70,7 @@ class General_models extends CI_Model
 
         $this->db->select('*');
         $this->db->from('vrequest');
+        $this->db->where('sEmpID', $this->session->userdata('sEmpID'));
 
         $i = 0;
 
@@ -115,5 +133,40 @@ class General_models extends CI_Model
         // $this->_get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
+    }
+
+    public function countData($type)
+    {
+        $count = null;
+        switch ($type) {
+            case 'user':
+                $this->db->from('tb_user');
+                $count = $this->db->count_all_results();
+                break;
+
+            case 'allReq':
+                $this->db->from('tb_request');
+                $this->db->where('iStatus != 0');
+                $count = $this->db->count_all_results();
+                break;
+
+            case 'nonCompleteReq':
+                $this->db->from('tb_request');
+                $this->db->where('iStatus = 2');
+                $count = $this->db->count_all_results();
+                break;
+
+            case 'completeReq':
+                $this->db->from('tb_request');
+                $this->db->where('iStatus = 3');
+                $count = $this->db->count_all_results();
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
+        return $count;
     }
 }

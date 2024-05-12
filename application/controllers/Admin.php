@@ -234,6 +234,82 @@ class Admin extends CI_Controller
         }
     }
 
+    public function updStatusPengajuan()
+    {
+        $session = $this->session->userdata();
+
+        $idUser = $session['idUser'];
+        $sEmpApp = $session['sEmpID'];
+
+        $id = $this->input->post('id');
+        $newStatus = $this->input->post('status');
+
+
+        $data = array(
+            'sEmpApp' => $sEmpApp,
+            'iStatus' => $newStatus,
+            'iModifyBy' => $idUser,
+        );
+
+        $inserted = $this->Admin_M->updPengajuan($id, $data);
+        $msg = 'Berhasil update status peminjaman !';
+
+        if ($inserted) {
+            echo json_encode(array('success' => true, 'message' => $msg));
+        } else {
+            echo json_encode(array('success' => false));
+        }
+    }
+
+    public function DTable_Get_Pengajuan()
+    {
+        header('Content-Type: application/json');
+
+        $list = $this->Admin_M->get_datatablesPengajuan();
+        $data = array();
+
+        $no = $_POST['start'];
+
+        foreach ($list as $list_items) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $list_items->sReqNum;
+            $row[] = $list_items->sName;
+            $row[] = $list_items->decReqQty;
+            $row[] = date("d-m-Y", strtotime($list_items->dtReqStart));
+            $row[] = date("d-m-Y", strtotime($list_items->dtReqEnd));
+            $row[] = $this->getStatusReq($list_items->iStatus);
+            $row[] = ($list_items->iStatus != 0 && $list_items->iStatus != 3) ? '<div class="dropdown mb-4">
+            <button class="btn btn-primary dropdown-toggle" type="button"
+                id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="true">
+                Action
+            </button>
+            <div class="dropdown-menu animated--fade-in"
+                aria-labelledby="dropdownMenuButton"
+                style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;"
+                x-placement="bottom-start">
+                <a class="dropdown-item change-status" href="#" data-status="2">Approve</a>
+                <a class="dropdown-item change-status" href="#" data-status="3">Complete</a>
+                <a class="dropdown-item change-status" href="#" data-status="0">Reject</a>
+            </div>
+        </div>' : '';
+
+            $row[] = $list_items->idReq;
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->Admin_M->count_all('pengajuan'),
+            "recordsFiltered" => $this->Admin_M->count_filtered('pengajuan'),
+            "data" => $data,
+        );
+
+        echo json_encode($output);
+    }
+
     public function DTable_Get_Barang()
     {
         header('Content-Type: application/json');
@@ -299,6 +375,31 @@ class Admin extends CI_Controller
         );
 
         echo json_encode($output);
+    }
+
+    function getStatusReq($iStatus)
+    {
+        $msg = '';
+        switch ($iStatus) {
+            case 1:
+                $msg = '<div class="bg-primary text-white text-center my-4">Waiting</div>';
+                break;
+            case 2:
+                $msg = '<div class="bg-success text-white text-center my-4">Approve</div>';
+                break;
+            case 3:
+                $msg = '<div class="bg-info text-white text-center my-4">Complete</div>';
+                break;
+
+            case 0:
+                $msg = '<div class="bg-danger text-white text-center my-4">Rejected</div>';
+                break;
+
+            default:
+                break;
+        }
+
+        return $msg;
     }
 
     public function account()

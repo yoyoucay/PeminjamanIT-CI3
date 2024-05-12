@@ -60,7 +60,7 @@ $this->load->view('component/modal-peminjaman'); ?>
 
     $(document).ready(function () {
         var table = $('#dtPeminjaman').DataTable({
-            "responsive": true, "lengthChange": false, "autoWidth": true,
+            "responsive": true, "lengthChange": true, "autoWidth": true,
             "processing": true,
             "serverSide": true,
             "searching": true,
@@ -87,30 +87,7 @@ $this->load->view('component/modal-peminjaman'); ?>
         openModal('modalInputPeminjaman');
     }
 
-    function editRow(id) {
-        var table = $('#dtPeminjaman').DataTable();
-
-        $('#dtPeminjaman tbody').on('click', 'tr', function () {
-            var rowData = table.row(this).data();
-            // Process rowData as needed (e.g., display in a modal, send to server, etc.)
-
-            console.log('rowdata : ', rowData)
-            $('#hModalPeminjaman').text('Update Peminjaman');
-            if (rowData) {
-                $('#sEmpID').val(rowData[1]);
-                $('#sFullname').val(rowData[2]);
-                $('#sRole').val(rowData[3]);
-                $('#idUser').val(rowData[5]);
-
-                openModal('modalInputPeminjaman');
-
-                var form = document.getElementById('peminjamanForm');
-                form.setAttribute('onsubmit', 'updateForm(); return false;');
-            }
-        });
-    }
-
-    function deleteRow(id) {
+    function rejectRow(id) {
 
         var table = $('#dtPeminjaman').DataTable();
 
@@ -121,20 +98,20 @@ $this->load->view('component/modal-peminjaman'); ?>
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Yes, Cancel it!'
         }).then((result) => {
             if (result.isConfirmed) {
                 // User confirmed, proceed with deletion
                 $.ajax({
-                    url: '<?php echo base_url('General/delAkun'); ?>',
+                    url: '<?php echo base_url('General/cancelPeminjaman'); ?>',
                     type: 'POST',
                     dataType: 'json',
                     data: { id: id },
                     success: function (response) {
                         if (response.status == 'success') {
                             Swal.fire(
-                                'Deleted!',
-                                'Your data has been deleted.',
+                                'Canceled!',
+                                response.message,
                                 'success'
                             );
                             // Refresh the DataTable or perform other actions after deletion

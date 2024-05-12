@@ -1,7 +1,9 @@
 <?php
 
 defined('BASEPATH') or exit('No direct script access allowed');
-// require './vendor/autoload.php';
+require 'vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class General extends CI_Controller
 {
@@ -33,8 +35,23 @@ class General extends CI_Controller
 
     // die(var_dump($data));
 
+    $resultChart = $this->db->select('SUM(decReqQty) as decReqQty, sKdBrg, sName')
+      ->from('vrequest')
+      ->group_by('sKdBrg')
+      ->get()
+      ->result_array();
+
+
+    $data['count'] = array(
+      'userReg' => $this->General_M->countData('user'),
+      'allReq' => $this->General_M->countData('allReq'),
+      'nonComplete' => $this->General_M->countData('nonCompleteReq'),
+      'complete' => $this->General_M->countData('completeReq'),
+      'chart_data' => $resultChart,
+    );
+
     $data['title'] = 'Dashboard - Peminjaman IT';
-    $data['content'] = $this->load->view('General/dashboard', null, true);
+    $data['content'] = $this->load->view('General/dashboard', $data['count'], true);
     $this->load->view('layout', $data);
   }
 
@@ -57,13 +74,19 @@ class General extends CI_Controller
     $idCreate = $session['idUser'];
     $sEmpID = $session['sEmpID'];
 
+    $dtReqStart = DateTime::createFromFormat('d-m-Y', $this->input->post('dtReqStart'));
+    $dtReqStart = $dtReqStart->format('Y-m-d H:i:s');
+
+    $dtReqEnd = DateTime::createFromFormat('d-m-Y', $this->input->post('dtReqEnd'));
+    $dtReqEnd = $dtReqEnd->format('Y-m-d H:i:s');
+
     $data = array(
       'sReqNum' => $this->generateReqNum(),
       'sEmpID' => $sEmpID,
       'sKdBrg' => $this->input->post('sKdBrg'),
       'decReqQty' => $this->input->post('decReqQty'),
-      'dtReqStart' => $this->input->post('dtReqStart'),
-      'dtReqEnd' => $this->input->post('dtReqEnd'),
+      'dtReqStart' => $dtReqStart,
+      'dtReqEnd' => $dtReqEnd,
       'iStatus' => 1,
       'iCreateBy' => $idCreate,
     );
@@ -78,6 +101,42 @@ class General extends CI_Controller
       echo json_encode(array('success' => true));
     } else {
       echo json_encode(array('success' => false));
+    }
+  }
+
+  public function cancelPeminjaman()
+  {
+    if ($this->input->is_ajax_request()) {
+
+      $session = $this->session->userdata();
+
+      $idUser = $session['idUser'];
+      $idReq = $this->input->post('id');
+
+      $data = array(
+        'iStatus' => 0,
+        'iModifyBy' => $idUser,
+        'dtModify' => date("Y-m-d H:i:s")
+      );
+
+      // Call model method to delete data
+      $result = $this->General_M->updPeminjamanById($idReq, $data);
+
+      if ($result) {
+        // Data deleted successfully
+        $response['status'] = 'success';
+        $response['message'] = 'Peminjaman telah dibatalkan!';
+      } else {
+        // Error deleting data
+        $response['status'] = 'error';
+        $response['message'] = 'Pembatalan peminjaman telah gagal!';
+      }
+
+      // Send JSON response back to the client
+      echo json_encode($response);
+    } else {
+      // Redirect or show an error page for non-AJAX requests
+      show_404();
     }
   }
 
@@ -97,12 +156,12 @@ class General extends CI_Controller
       $row[] = $list_items->sReqNum;
       $row[] = $list_items->sName;
       $row[] = $list_items->decReqQty;
-      $row[] = $list_items->dtReqStart;
-      $row[] = $list_items->dtReqEnd;
+      $row[] = date("d-m-Y", strtotime($list_items->dtReqStart));
+      $row[] = date("d-m-Y", strtotime($list_items->dtReqEnd));
       $row[] = $list_items->sNameApp;
-      $row[] = $this->getStatusReq($list_items->iStatus);
-      $row[] = '<button onClick="editRow(' . $list_items->idReq . ')" class="btn btn-info btn-xs">Edit</button>
-                <button onClick="deleteRow(' . $list_items->idReq . ')" class="btn btn-danger btn-xs">Delete</button>';
+      $row[] = $this->getStatusReqBtn($list_items->iStatus, $list_items->sEmpApp);
+      $row[] = ($list_items->iStatus != 0 && $list_items->iStatus != 3) ? '<button onClick="rejectRow(' . $list_items->idReq . ')" class="btn btn-danger btn-xs">Cancel</button>' : 'N/A';
+
       $row[] = $list_items->idReq;
       $data[] = $row;
     }
@@ -117,22 +176,27 @@ class General extends CI_Controller
     echo json_encode($output);
   }
 
-  function getStatusReq($iStatus)
+  function getStatusReqBtn($iStatus, $sEmpApp = null)
   {
     $msg = '';
     switch ($iStatus) {
       case 1:
-        $msg = 'Waiting';
+        $msg = '<div class="bg-primary text-white text-center my-4">Waiting</div>';
         break;
       case 2:
-        $msg = 'Approved';
+        $msg = '<div class="bg-success text-white text-center my-4">Approve</div>';
         break;
       case 3:
-        $msg = 'Complete';
+        $msg = '<div class="bg-info text-white text-center my-4">Complete</div>';
         break;
 
       case 0:
-        $msg = 'Rejected';
+        if ($sEmpApp != null) {
+          $msg = '<div class="bg-danger text-white text-center my-4">Rejected</div>';
+        } else {
+          $msg = '<div class="bg-danger text-white text-center my-4">Canceled</div>';
+        }
+
         break;
 
       default:
@@ -140,6 +204,92 @@ class General extends CI_Controller
     }
 
     return $msg;
+  }
+
+  function getStatusReq($iStatus, $sEmpApp = null)
+  {
+    $msg = '';
+    switch ($iStatus) {
+      case 1:
+        $msg = 'Waiting';
+        break;
+      case 2:
+        $msg = 'Approve';
+        break;
+      case 3:
+        $msg = 'Complete';
+        break;
+
+      case 0:
+        if ($sEmpApp != null) {
+          $msg = 'Rejected';
+        } else {
+          $msg = 'Canceled';
+        }
+
+        break;
+
+      default:
+        break;
+    }
+    return $msg;
+  }
+
+  public function exportToExcel()
+  {
+    // Load PhpSpreadsheet library
+
+    $spreadsheet = new Spreadsheet();
+
+    $spreadsheet->getProperties()->setCreator("Infineon Technologies.")
+      ->setLastModifiedBy("Ramadhan Wijaya")
+      ->setTitle("Export Report - " . date('d-m-Y'))
+      ->setSubject("Export Report PeminjamanIT")
+      ->setDescription("Export report Bulanan");
+
+    // Get active sheet
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // Define headers
+    $headers = ['Req. Num', 'Loan Items', 'Qty Req.', 'Start Loan', 'Finish Loan', 'ID Admin', 'Admin', 'Status'];
+
+    $column = 'A';
+    foreach ($headers as $header) {
+      $sheet->setCellValue($column . '1', $header);
+      $column++;
+    }
+
+    $data = $this->db->select('sReqNum,sKdBrg,decReqQty,dtReqStart,dtReqEnd,sEmpID, sNameApp,iStatus')
+      ->from('vrequest')
+      ->get()
+      ->result_array();
+
+    // Set data rows
+    $row = 2;
+
+    $newData = [];
+    foreach ($data as $object) {
+      $object['iStatus'] = $this->getStatusReq($object['iStatus'], $object['sEmpID']); // Replace 'new_value' with the desired new value
+      array_push($newData, $object);
+    }
+
+    foreach ($newData as $row_data) {
+      $column = 'A';
+      foreach ($row_data as $cell_data) {
+        $sheet->setCellValue($column . $row, $cell_data);
+        $column++;
+      }
+      $row++;
+    }
+
+    // Set headers for Excel file
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="exported_data.xlsx"');
+    header('Cache-Control: max-age=0');
+
+    // Save Excel file to output
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
   }
 
   public function getBarangs()
