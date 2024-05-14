@@ -4,7 +4,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Admin extends CI_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -19,17 +18,9 @@ class Admin extends CI_Controller
         }
     }
 
-    public function index()
-    {
-
-    }
-
     public function request()
     {
         $data = $this->session->userdata();
-
-        // die(var_dump($data));
-
         $data['title'] = 'Permintaan - Peminjaman IT';
         $data['content'] = $this->load->view('Admin/request', null, true);
         $this->load->view('layout', $data);

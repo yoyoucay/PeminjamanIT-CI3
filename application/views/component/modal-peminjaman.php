@@ -113,10 +113,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     })
                 };
             }
-        }
+        } 
     });
     // Set default value based on session data
-    $('#sEmpID').append('<option value="' + <?= $this->session->userdata('sEmpID') ?> + '" selec t                   ed="selected">' + '<?= $this->session->userdata('sEmpID') ?>  -  <?= $this->session->userdata('sFullName') ?>'+'</option>');
+    $('#sEmpID').append('<option value="<?= $this->session->userdata('sEmpID') ?>" selected="selected"><?= $this->session->userdata('sEmpID') ?> - <?= $this->session->userdata('sFullName') ?></option>');
     $('#sEmpID').trigger('change');
     $('#sEmpID').prop('disabled', true);
 

@@ -133,6 +133,25 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="row">
+                <!-- Area Chart -->
+                <div class="col-xl-12 col-lg-7">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Stock Barang yang tersedia</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-area">
+                                <canvas id="stockPart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- /.container-fluid -->
     </div>
@@ -145,12 +164,13 @@
         Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
         Chart.defaults.global.defaultFontColor = '#858796';
 
-        var ctx = document.getElementById("mostPart");
-        var myLineChart = new Chart(ctx, {
+        var mPartChart = document.getElementById("mostPart");
+        var sPartChart = document.getElementById("stockPart");
+        var mostPartChart = new Chart(mPartChart, {
             type: 'bar',
             data: {
-                labels: [<?php foreach ($chart_data as $data): ?>
-                                                                                                                                                '<?php echo $data['sName']; ?>',
+                labels: [<?php foreach ($chartReq as $data): ?>
+                                '<?php echo $data['sName']; ?>',
                     <?php endforeach; ?>
                 ],
                 datasets: [{
@@ -167,8 +187,8 @@
                     pointHitRadius: 10,
                     pointBorderWidth: 2,
                     data: [
-                        <?php foreach ($chart_data as $data): ?>
-                                                                                                                        <?php echo $data['decReqQty']; ?>,
+                        <?php foreach ($chartReq as $data): ?>
+                                                                                                                                <?php echo $data['decReqQty']; ?>,
                         <?php endforeach; ?>
                     ],
                 }],
@@ -236,6 +256,74 @@
                 }
             }
         });
+
+        // Function to generate a random color
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Function to generate an array of random colors
+        function generateColors(numColors) {
+            let colors = [];
+            for (let i = 0; i < numColors; i++) {
+                colors.push(getRandomColor());
+            }
+            return colors;
+        }
+
+        // Assuming chartStock is an array of data points
+        const labelsStock = [
+            <?php foreach ($chartStock as $data): ?>
+            '<?php echo $data['sKode'].'-'.$data['sName']; ?>',
+            <?php endforeach; ?>
+        ];
+
+        const dataStock = [
+            <?php foreach ($chartStock as $data): ?>
+            '<?php echo $data['decQty']; ?>',
+            <?php endforeach; ?>
+        ];
+
+        // Generate dynamic colors for the chart
+        const backgroundColors = generateColors(dataStock.length);
+        const hoverBackgroundColors = backgroundColors.map(color => color + 'AA');
+
+
+        var myPieChart = new Chart(sPartChart, {
+            type: 'doughnut',
+            data: {
+                labels: labelsStock,
+                datasets: [{
+                    data: dataStock,
+                    backgroundColor: backgroundColors,
+                    hoverBackgroundColor: hoverBackgroundColors,
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: true
+                },
+                cutoutPercentage: 80,
+            },
+        });
+
     };
 </script>
 

@@ -60,6 +60,7 @@ $route['logout'] = 'Auth/logout';
 $route['dashboard'] = 'General';
 $route['peminjaman'] = 'General/peminjaman';
 $route['export'] = 'General/exportToExcel';
+$route['password'] = 'General/changePassword';
 
 // Admin
 $route['request'] = 'Admin/request';

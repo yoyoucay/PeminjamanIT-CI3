@@ -35,19 +35,25 @@ class General extends CI_Controller
 
     // die(var_dump($data));
 
-    $resultChart = $this->db->select('SUM(decReqQty) as decReqQty, sKdBrg, sName')
+    $resultChartReq = $this->db->select('SUM(decReqQty) as decReqQty, sKdBrg, sName')
       ->from('vrequest')
+      ->where('iStatus = 2')
       ->group_by('sKdBrg')
       ->get()
       ->result_array();
 
+      $resultChartStock = $this->db->select('*')
+      ->from('vstock')
+      ->get()
+      ->result_array();
 
     $data['count'] = array(
       'userReg' => $this->General_M->countData('user'),
       'allReq' => $this->General_M->countData('allReq'),
       'nonComplete' => $this->General_M->countData('nonCompleteReq'),
       'complete' => $this->General_M->countData('completeReq'),
-      'chart_data' => $resultChart,
+      'chartReq' => $resultChartReq,
+      'chartStock' => $resultChartStock,
     );
 
     $data['title'] = 'Dashboard - Peminjaman IT';
@@ -137,6 +143,34 @@ class General extends CI_Controller
     } else {
       // Redirect or show an error page for non-AJAX requests
       show_404();
+    }
+  }
+
+  public function changePassword()
+  {
+    $this->form_validation->set_rules('current_password', 'Current Password', 'required');
+    $this->form_validation->set_rules('new_password', 'New Password', 'required|min_length[4]');
+    $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[new_password]');
+
+    $data = $this->session->userdata();
+
+    if ($this->form_validation->run() == FALSE) {
+      $data['title'] = 'Ganti Password - Peminjaman IT';
+      $data['content'] = $this->load->view('General/change-password', null, true);
+      $this->load->view('layout', $data);
+    } else {
+      $user_id = $this->session->userdata('idUser');
+      $current_password = $this->input->post('current_password');
+      $new_password = $this->encryption->encrypt($this->input->post('new_password'));
+
+      if ($this->General_M->check_current_password($user_id, $current_password)) {
+        $this->General_M->update_password($user_id, $new_password);
+        $this->session->set_flashdata('success', 'Password berhasil diganti!');
+        redirect('password');
+      } else {
+        $this->session->set_flashdata('error', 'Password tidak cocok dengan password lama!');
+        redirect('password');
+      }
     }
   }
 

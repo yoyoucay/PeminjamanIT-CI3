@@ -51,6 +51,24 @@ class General_models extends CI_Model
         return $this->db->affected_rows() > 0;
     }
 
+    public function check_current_password($idUser, $current_password) {
+        $this->db->where('idUser', $idUser);
+        $user = $this->db->get('tb_user')->row();
+        $old_password = $this->encryption->decrypt($user->sPassword);
+        // echo $current_password;
+        // echo $old_password;
+        // die();
+        if ($current_password == $old_password) {
+            return true;
+        }
+        return false;
+    }
+
+    public function update_password($idUser, $new_password) {
+        $this->db->where('idUser', $idUser);
+        $this->db->update('tb_user', ['sPassword' => $new_password]);
+    }
+
     public function get_datatablesPeminjaman()
     {
         $this->_get_datatables_Peminjaman();
