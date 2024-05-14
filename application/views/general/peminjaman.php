@@ -53,8 +53,7 @@
     <!-- End of Main Content -->
 </div>
 
-<?php
-$this->load->view('component/modal-peminjaman'); ?>
+<?php $this->load->view('component/modal-peminjaman'); ?>
 <!-- End of Content Wrapper -->
 <script>
 
