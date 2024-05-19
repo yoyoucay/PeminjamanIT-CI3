@@ -33,9 +33,9 @@ class General_models extends CI_Model
     {
         $this->db->insert('tb_request', $data);
 
-        $this->db->set('decQty', 'decQty - ' . $data['decReqQty'], false);
-        $this->db->where('sKode', $data['sKdBrg']);
-        $this->db->update('tb_brg');
+        // $this->db->set('decQty', 'decQty - ' . $data['decReqQty'], false);
+        // $this->db->where('sKode', $data['sKdBrg']);
+        // $this->db->update('tb_brg');
 
         return ($this->db->affected_rows() > 0);
     }

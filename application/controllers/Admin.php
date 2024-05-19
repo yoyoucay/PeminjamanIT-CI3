@@ -254,12 +254,14 @@ class Admin extends CI_Controller
         $inserted = $this->Admin_M->updPengajuan($id, $data);
         $res = $this->Admin_M->getData('tb_request', 'idReq', $id);
         $decReqQty = $res['decReqQty'];
+        echo $decReqQty.'<br>';
         if ($res) {
             $res = $this->Admin_M->getData('tb_brg', 'sKode', $res['sKdBrg']);
 
             $payload = array(
                 'decQty' => $res['decQty'] - $decReqQty
             );
+            echo var_dump($payload);
 
             $inserted = $this->Admin_M->updBarangById($res['idBrg'], $payload);
         }
