@@ -3,7 +3,7 @@
     <!-- Main Content -->
     <div id="content">
         <!-- Begin Page Content -->
-        <div class="container-fluid">\
+        <div class="container-fluid">
             <!-- Content Row -->
             <div class="row">
                 <!-- Area Chart -->

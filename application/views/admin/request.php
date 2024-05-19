@@ -49,8 +49,9 @@
     <!-- End of Main Content -->
 </div>
 
-<?php
-$this->load->view('component/modal-peminjaman'); ?>
+<?php $this->load->view('component/modal-peminjaman'); ?>
+
+<?php $this->load->view('component/modal-reason'); ?>
 <!-- End of Content Wrapper -->
 <script>
     $(document).ready(function () {
@@ -73,6 +74,11 @@ $this->load->view('component/modal-peminjaman'); ?>
         var id = data[8];
         var newStatus = $(this).data('status');
 
+        if (newStatus == 0) {
+            showReasonModal(id);
+            return;
+        }
+
         $.ajax({
             url: '<?php echo base_url("request/action"); ?>',
             method: 'POST',
@@ -93,5 +99,13 @@ $this->load->view('component/modal-peminjaman'); ?>
         });
     });
 
+    function showReasonModal(idReq) {
+        var form = document.getElementById('reasonForm');
+        form.setAttribute('onsubmit', 'submitForm(); return false;');
+        $('#hModalReason').text('Reject Reason');
+        $('#idRequest').val(idReq);
+        resetForm('reasonForm');
+        openModal('modalInputReason');
+    }
 
 </script>

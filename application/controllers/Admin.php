@@ -235,14 +235,34 @@ class Admin extends CI_Controller
         $id = $this->input->post('id');
         $newStatus = $this->input->post('status');
 
-
-        $data = array(
-            'sEmpApp' => $sEmpApp,
-            'iStatus' => $newStatus,
-            'iModifyBy' => $idUser,
-        );
+        if ($newStatus == "0") {
+            $sReason = $this->input->post('sReason');
+            $data = array(
+                'sEmpApp' => $sEmpApp,
+                'sReason' => $sReason,
+                'iStatus' => $newStatus,
+                'iModifyBy' => $idUser,
+            );
+        } else {
+            $data = array(
+                'sEmpApp' => $sEmpApp,
+                'iStatus' => $newStatus,
+                'iModifyBy' => $idUser,
+            );
+        }
 
         $inserted = $this->Admin_M->updPengajuan($id, $data);
+        $res = $this->Admin_M->getData('tb_request', 'idReq', $id);
+        $decReqQty = $res['decReqQty'];
+        if ($res) {
+            $res = $this->Admin_M->getData('tb_brg', 'sKode', $res['sKdBrg']);
+
+            $payload = array(
+                'decQty' => $res['decQty'] - $decReqQty
+            );
+
+            $inserted = $this->Admin_M->updBarangById($res['idBrg'], $payload);
+        }
         $msg = 'Berhasil update status peminjaman !';
 
         if ($inserted) {
@@ -270,7 +290,7 @@ class Admin extends CI_Controller
             $row[] = $list_items->decReqQty;
             $row[] = date("d-m-Y", strtotime($list_items->dtReqStart));
             $row[] = date("d-m-Y", strtotime($list_items->dtReqEnd));
-            $row[] = $this->getStatusReq($list_items->iStatus);
+            $row[] = $this->getStatusReq($list_items->iStatus, $list_items->sReason);
             $row[] = ($list_items->iStatus != 0 && $list_items->iStatus != 3) ? '<div class="dropdown mb-4">
             <button class="btn btn-primary dropdown-toggle" type="button"
                 id="dropdownMenuButton" data-toggle="dropdown"
@@ -368,7 +388,7 @@ class Admin extends CI_Controller
         echo json_encode($output);
     }
 
-    function getStatusReq($iStatus)
+    function getStatusReq($iStatus, $sReason = null)
     {
         $msg = '';
         switch ($iStatus) {
@@ -383,7 +403,7 @@ class Admin extends CI_Controller
                 break;
 
             case 0:
-                $msg = '<div class="bg-danger text-white text-center my-4">Rejected</div>';
+                $msg = '<div class="bg-danger text-white text-center my-4">Rejected</div><br><p>'.$sReason.'<p>';
                 break;
 
             default:

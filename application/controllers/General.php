@@ -13,7 +13,7 @@ class General extends CI_Controller
     parent::__construct();
     $this->load->model('General_models', 'General_M');
     $this->load->model('Authentication_models', 'Auth_M');
-    $this->load->model('User_models', 'User_M');
+    $this->load->model('User_models', 'User_M');  
     $this->load->library('session');
     $this->load->helper(array('url', 'html', 'form', 'date'));
 

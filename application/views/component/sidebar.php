@@ -94,6 +94,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
   <!-- Nav Item - Tables -->
   <li class="nav-item">
+    <a class="nav-link" href="<?= base_url('password'); ?>">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Change password</span></a>
+  </li>
+
+  <!-- Nav Item - Tables -->
+  <li class="nav-item">
     <a class="nav-link" href="<?= base_url('logout'); ?>">
       <i class="fas fa-fw fa-power-off"></i>
       <span>Logout</span></a>
