@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Waktu pembuatan: 11 Bulan Mei 2024 pada 19.50
--- Versi server: 10.4.28-MariaDB
--- Versi PHP: 8.1.17
+-- Host: 127.0.0.1
+-- Generation Time: May 19, 2024 at 08:27 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `PeminjamanIT`
+-- Database: `peminjamanit`
 --
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_brg`
+-- Table structure for table `tb_brg`
 --
 
 CREATE TABLE `tb_brg` (
@@ -40,16 +40,29 @@ CREATE TABLE `tb_brg` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Dumping data untuk tabel `tb_brg`
+-- Dumping data for table `tb_brg`
 --
 
 INSERT INTO `tb_brg` (`idBrg`, `sKode`, `sName`, `decQty`, `sType`, `iCreateBy`, `dtCreate`, `iModifyBy`, `dtModify`) VALUES
-(7, 'M0001', 'Mouse Fantech', 200, 2, 1, '2024-05-11 18:51:14', NULL, NULL);
+(10, 'A001', 'PC Besar', 21, 1, 2, '2024-05-14 23:05:36', 2, '2024-05-20 00:04:49'),
+(11, 'A002', 'Mini PC', 46, 1, 2, '2024-05-14 23:05:57', 2, '2024-05-14 23:14:39'),
+(12, 'A003', 'Monitor', 60, 1, 2, '2024-05-14 23:07:04', NULL, NULL),
+(13, 'A004', 'Proyektor', 10, 1, 2, '2024-05-14 23:08:19', 2, '2024-05-14 23:14:52'),
+(14, 'A005', 'Handphone - Iphone', 20, 1, 2, '2024-05-14 23:09:18', NULL, NULL),
+(15, 'B001', 'Mouse', 100, 2, 2, '2024-05-14 23:09:43', NULL, NULL),
+(16, 'A006', 'Laptop', 50, 1, 2, '2024-05-14 23:11:16', NULL, NULL),
+(17, 'A007', 'Printer', 10, 1, 2, '2024-05-14 23:12:35', NULL, NULL),
+(18, 'B002', 'Kabel Charger Laptop', 100, 2, 2, '2024-05-14 23:13:22', 2, '2024-05-14 23:15:16'),
+(19, 'B003', 'Kabel Charger Iphone', 40, 2, 2, '2024-05-14 23:13:43', 2, '2024-05-14 23:15:24'),
+(20, 'B004', 'Kabel HDMI', 50, 2, 2, '2024-05-14 23:14:23', NULL, NULL),
+(21, 'B004', 'Kabel USB', 20, 2, 2, '2024-05-14 23:15:56', NULL, NULL),
+(22, 'B005', 'HardDisk', 300, 2, 2, '2024-05-14 23:16:23', NULL, NULL),
+(23, 'B006', 'Suku Cadang Printer', 40, 2, 2, '2024-05-14 23:16:50', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_request`
+-- Table structure for table `tb_request`
 --
 
 CREATE TABLE `tb_request` (
@@ -61,6 +74,7 @@ CREATE TABLE `tb_request` (
   `dtReqStart` datetime NOT NULL,
   `dtReqEnd` datetime NOT NULL,
   `sEmpApp` varchar(50) NOT NULL,
+  `sReason` varchar(255) DEFAULT NULL,
   `iStatus` int(11) NOT NULL,
   `iCreateBy` int(11) NOT NULL,
   `dtCreate` datetime NOT NULL DEFAULT current_timestamp(),
@@ -69,16 +83,17 @@ CREATE TABLE `tb_request` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Dumping data untuk tabel `tb_request`
+-- Dumping data for table `tb_request`
 --
 
-INSERT INTO `tb_request` (`idReq`, `sReqNum`, `sEmpID`, `sKdBrg`, `decReqQty`, `dtReqStart`, `dtReqEnd`, `sEmpApp`, `iStatus`, `iCreateBy`, `dtCreate`, `iModifyBy`, `dtModify`) VALUES
-(0, 'JM3BRJ6I', '752846', 'M0001', 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', 1, 1, '2024-05-11 22:57:32', NULL, NULL);
+INSERT INTO `tb_request` (`idReq`, `sReqNum`, `sEmpID`, `sKdBrg`, `decReqQty`, `dtReqStart`, `dtReqEnd`, `sEmpApp`, `sReason`, `iStatus`, `iCreateBy`, `dtCreate`, `iModifyBy`, `dtModify`) VALUES
+(1, 'GZKTF8UJ', 'IF002', 'A001', 1, '2024-05-15 18:58:40', '2024-05-22 18:58:40', 'IF001', NULL, 3, 11, '2024-05-15 18:58:40', 2, NULL),
+(2, 'UTIR1WDH', 'IF002', 'A001', 1, '2024-05-15 19:29:29', '2024-05-29 19:29:29', 'IF001', 'Barang tidak tersedia', 0, 11, '2024-05-15 19:29:29', 2, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_user`
+-- Table structure for table `tb_user`
 --
 
 CREATE TABLE `tb_user` (
@@ -94,24 +109,23 @@ CREATE TABLE `tb_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Dumping data untuk tabel `tb_user`
+-- Dumping data for table `tb_user`
 --
 
 INSERT INTO `tb_user` (`idUser`, `sEmpID`, `sFullname`, `sPassword`, `sRole`, `dtCreate`, `iCreateBy`, `dtModify`, `iModifyBy`) VALUES
-(1, '752846', 'Arif Febriana', 'fa9b0a0ddf4adb0072c73d4faacc7e303a9795cd0801965dba5a6a329e17c2ead27f6abaaf2c1bd26c421fefa0da1a125d4a0218f8a1dde54268220cf419053cSYeP9WyXsBFijxw1kMZ5we0owBHHtORYVEHX6Tsp7Mk=', 'ADMIN', '2024-05-04 01:04:47', 0, '2024-05-11 02:58:22', 1),
-(2, '123987', 'Rama Wijaya', '6a9d383e1e2a64942429e2af2ce5330a082138603e6e1a12e922fc6db157886cc3ce83724ecf2cb97fb57b32c181dc3a1f50136760630618dee8553cb9337e18Fy0WL9+esD6+ROyrg7JrlHxMKtHkAUYvoKQ1zGpHQEU=', 'admin', '2024-05-04 21:35:44', 0, NULL, NULL),
-(3, '112233', 'Doni KurniawanD', 'aa0469b3c3b1b299b56e6199fca99f90c9aa1dbfbd344a79848807e18727cf6205e8ee1da32d6600735c02fa844119bdcf621db0bd24d2bb5c0087d148debfb51Qc4jY+4pq4yLiU/zws6xDDQvmoGclBw3zTQjfoyz1U=', 'USER', '2024-05-11 03:06:20', 1, '2024-05-11 03:08:40', 1),
-(9, '12345', 'Anggi Prasetyo', '2350af78fbe92dfc14b1c00f8e2297c34acf595c7cf805b1f1fac2371e3ae4326449a497472aa89278561582bed2f1e4d27bf8bc22ac48356f49a0fb80706b444hhTZesA26nMQTgXJO03FsaDfHrXP/sbyJ6hcRjbzR8=', 'USER', '2024-05-11 15:21:29', 1, NULL, NULL);
+(2, 'IF001', 'Ramadhan Wijaya', '4703984fa699d433b1bc01f2544333a6c93663e18efe8371bb38b0b7d34c10197e980a4f401206551a5de2cbf4bd89f80827c58f2389df9a5e8babc377a98252t9YxOKHKGz4t1+n2hvWDqiH8qTeA/JtzY2bhomNGEO0=', 'ADMIN', '2024-05-04 21:35:44', 0, '2024-05-14 23:19:23', 2),
+(11, 'IF002', 'Enwandi Andreas', 'af9e554f37620c21d4c515d79d7ba75574f20b204d2e352bdf6f639fc9d5be0c019e49dab910f33f9da652e7ddb8e38566b41b37fb5baa0d35b1ae2842c17d60Nno+wkE0ILv+msmuqcdppxry8vMhvR0dyL6AdjQTlsI=', 'USER', '2024-05-15 18:55:46', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `vrequest`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `vrequest`
+-- (See below for the actual view)
 --
 CREATE TABLE `vrequest` (
 `idReq` int(11)
 ,`sReqNum` varchar(50)
+,`sReason` varchar(255)
 ,`sEmpID` varchar(50)
 ,`sFullname` varchar(150)
 ,`sKdBrg` varchar(50)
@@ -127,50 +141,77 @@ CREATE TABLE `vrequest` (
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `vrequest`
+-- Stand-in structure for view `vstock`
+-- (See below for the actual view)
+--
+CREATE TABLE `vstock` (
+`sKode` varchar(30)
+,`sName` varchar(60)
+,`decQty` double
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vrequest`
 --
 DROP TABLE IF EXISTS `vrequest`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `peminjamanit`.`vrequest`  AS SELECT `R`.`idReq` AS `idReq`, `R`.`sReqNum` AS `sReqNum`, `R`.`sEmpID` AS `sEmpID`, `U`.`sFullname` AS `sFullname`, `R`.`sKdBrg` AS `sKdBrg`, `B`.`sName` AS `sName`, `R`.`decReqQty` AS `decReqQty`, `R`.`dtReqStart` AS `dtReqStart`, `R`.`dtReqEnd` AS `dtReqEnd`, `R`.`sEmpApp` AS `sEmpApp`, `U2`.`sFullname` AS `sNameApp`, `R`.`iStatus` AS `iStatus` FROM (((`peminjamanit`.`tb_request` `R` left join `peminjamanit`.`tb_user` `U` on(`U`.`sEmpID` = `R`.`sEmpID`)) left join `peminjamanit`.`tb_user` `U2` on(`U2`.`sEmpID` = `R`.`sEmpApp`)) left join `peminjamanit`.`tb_brg` `B` on(`B`.`sKode` = `R`.`sKdBrg`)) ORDER BY `R`.`sReqNum` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vrequest`  AS SELECT `r`.`idReq` AS `idReq`, `r`.`sReqNum` AS `sReqNum`, `r`.`sReason` AS `sReason`, `r`.`sEmpID` AS `sEmpID`, `u`.`sFullname` AS `sFullname`, `r`.`sKdBrg` AS `sKdBrg`, `b`.`sName` AS `sName`, `r`.`decReqQty` AS `decReqQty`, `r`.`dtReqStart` AS `dtReqStart`, `r`.`dtReqEnd` AS `dtReqEnd`, `r`.`sEmpApp` AS `sEmpApp`, `u2`.`sFullname` AS `sNameApp`, `r`.`iStatus` AS `iStatus` FROM (((`tb_request` `r` left join `tb_user` `u` on(`u`.`sEmpID` = `r`.`sEmpID`)) left join `tb_user` `u2` on(`u2`.`sEmpID` = `r`.`sEmpApp`)) left join `tb_brg` `b` on(`b`.`sKode` = `r`.`sKdBrg`)) GROUP BY `r`.`sReqNum`, `r`.`sEmpID`, `r`.`sKdBrg`, `r`.`decReqQty`, `r`.`dtReqStart`, `r`.`dtReqEnd`, `r`.`sEmpApp` ORDER BY `r`.`sReqNum` ASC ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vstock`
+--
+DROP TABLE IF EXISTS `vstock`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vstock`  AS SELECT `tb_brg`.`sKode` AS `sKode`, `tb_brg`.`sName` AS `sName`, sum(`tb_brg`.`decQty`) AS `decQty` FROM `tb_brg` GROUP BY `tb_brg`.`sKode`, `tb_brg`.`sName` ORDER BY `tb_brg`.`sKode` ASC ;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `tb_brg`
+-- Indexes for table `tb_brg`
 --
 ALTER TABLE `tb_brg`
   ADD PRIMARY KEY (`idBrg`);
 
 --
--- Indeks untuk tabel `tb_request`
+-- Indexes for table `tb_request`
 --
 ALTER TABLE `tb_request`
   ADD PRIMARY KEY (`idReq`),
   ADD UNIQUE KEY `sReqNum` (`sReqNum`);
 
 --
--- Indeks untuk tabel `tb_user`
+-- Indexes for table `tb_user`
 --
 ALTER TABLE `tb_user`
   ADD PRIMARY KEY (`idUser`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_brg`
+-- AUTO_INCREMENT for table `tb_brg`
 --
 ALTER TABLE `tb_brg`
-  MODIFY `idBrg` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idBrg` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_user`
+-- AUTO_INCREMENT for table `tb_request`
+--
+ALTER TABLE `tb_request`
+  MODIFY `idReq` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
