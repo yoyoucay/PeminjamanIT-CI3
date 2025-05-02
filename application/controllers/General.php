@@ -275,7 +275,7 @@ class General extends CI_Controller
 
     $spreadsheet = new Spreadsheet();
 
-    $spreadsheet->getProperties()->setCreator("Infineon Technologies.")
+    $spreadsheet->getProperties()->setCreator("PT. XYZ.")
       ->setLastModifiedBy("Ramadhan Wijaya")
       ->setTitle("Export Report - " . date('d-m-Y'))
       ->setSubject("Export Report PeminjamanIT")
