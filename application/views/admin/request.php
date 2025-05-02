@@ -7,7 +7,7 @@
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">List Pengajuan</h1>
+                <h1 class="h3 mb-0 text-gray-800">Daftar Pengajuan</h1>
             </div>
             <!-- Content Row -->
             <div class="row">
@@ -17,7 +17,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 flex justify-between">
                             <div class="w-full flex gap-4 h-25">
-                                <h6 class="m-0 font-weight-bold text-primary">List Pengajuan</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Daftar Pengajuan</h6>
                             </div>
                         </div>
                         <div class="card-body">

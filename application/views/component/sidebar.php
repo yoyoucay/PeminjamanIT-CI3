@@ -48,7 +48,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse1" aria-expanded="true"
       aria-controls="collapseTwo">
       <i class="fas fa-fw fa-clipboard"></i>
-      <span>List Peminjaman</span>
+      <span>Daftar Peminjaman</span>
     </a>
     <div id="collapse1" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
@@ -96,14 +96,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <li class="nav-item">
     <a class="nav-link" href="<?= base_url('password'); ?>">
       <i class="fas fa-fw fa-cog"></i>
-      <span>Change password</span></a>
+      <span>Ganti password</span></a>
   </li>
 
   <!-- Nav Item - Tables -->
   <li class="nav-item">
     <a class="nav-link" href="<?= base_url('logout'); ?>">
       <i class="fas fa-fw fa-power-off"></i>
-      <span>Logout</span></a>
+      <span>Keluar</span></a>
   </li>
 
   <!-- Divider -->
